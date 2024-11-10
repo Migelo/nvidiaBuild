@@ -39,5 +39,6 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/nvhpc:24.1-devel-cuda_multi-ubuntu22.04-hdf5:latest
-
+        tags: |
+          ${{ secrets.DOCKER_USERNAME }}/nvhpc:24.1-devel-cuda_multi-ubuntu22.04-hdf5,
+          ${{ secrets.DOCKER_USERNAME }}/nvhpc:latest
