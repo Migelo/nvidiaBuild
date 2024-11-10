@@ -23,7 +23,7 @@ RUN apt-get update && \
   CFLAGS="-fPIC -O3" \
   FFLAGS="-fPIC -O3" \
   CXXFLAGS="-fPIC -O3" && \
-  make -j3 && \
+  make -j && \
   make install && \
   cd .. && \
   rm -rf hdf5-1.14.4-3* && \
