@@ -33,7 +33,7 @@ jobs:
         file: ./Dockerfile
         push: ${{ github.ref == 'refs/heads/main' }}
         tags: |
-          ${{ secrets.DOCKER_USERNAME }}/nvhpc:24.1-devel-cuda_multi-ubuntu22.04-hdf5,
+          ${{ secrets.DOCKER_USERNAME }}/nvhpc:24.1-devel-cuda_multi-ubuntu22.04-hdf5
           ${{ secrets.DOCKER_USERNAME }}/nvhpc:latest
-        cache-from: type=registry,ref=user/app:latest
+        cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/nvhpc:latest
         cache-to: type=inline
