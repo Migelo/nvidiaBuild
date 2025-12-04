@@ -25,6 +25,7 @@ jobs:
         root-reserve-mb: 512
         swap-size-mb: 1024
         build-mount-path: /var/lib/docker
+        overprovision-lvm: 'true'
 
     - name: Restart Docker after disk remount
       run: |
