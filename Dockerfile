@@ -8,7 +8,7 @@ ENV LD_LIBRARY_PATH=$HDFPATH/lib:$LD_LIBRARY_PATH
 # Install zlib and other necessary packages, create directories, and download HDF5
 RUN apt-get update && \
   apt-get install -y zlib1g-dev wget && \
-  wget -q https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.4.3/hdf5-1.14.4-3.tar.gz && \
+  wget -q https://github.com/HDFGroup/hdf5/releases/download/2.0.0/hdf5-2.0.0.tar.gz && \
   tar -xzf hdf5-1.14.4-3.tar.gz && \
   cd hdf5-1.14.4-3 && \
   ./configure \

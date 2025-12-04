@@ -17,7 +17,14 @@ jobs:
     - name: "node-cleanup"
       run: |
         df -hT
-        sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /opt/hostedtoolcache/CodeQL
+        sudo rm -rf /usr/local/share/boost
+        sudo rm -rf /usr/share/swift
+        sudo rm -rf /opt/az
+        sudo rm -rf /opt/microsoft
         df -hT
 
     - name: Checkout repository
@@ -33,6 +40,13 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Extract NVHPC version from Dockerfile
+      id: extract_version
+      run: |
+        VERSION=$(grep -oP 'FROM nvcr.io/nvidia/nvhpc:\K[^-]+' Dockerfile)
+        echo "nvhpc_version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Extracted NVHPC version: $VERSION"
+
     - name: Build and push Docker image
       uses: docker/build-push-action@v6
       with:
@@ -40,7 +54,7 @@ jobs:
         file: ./Dockerfile
         push: ${{ github.ref == 'refs/heads/main' }}
         tags: |
-          ${{ secrets.DOCKER_USERNAME }}/nvhpc:24.1-devel-cuda_multi-ubuntu22.04-hdf5
+          ${{ secrets.DOCKER_USERNAME }}/nvhpc:${{ steps.extract_version.outputs.nvhpc_version }}-devel-cuda_multi-ubuntu22.04-hdf5
           ${{ secrets.DOCKER_USERNAME }}/nvhpc:latest
         cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/nvhpc:latest
         cache-to: type=inline
