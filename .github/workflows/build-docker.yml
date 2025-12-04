@@ -26,6 +26,11 @@ jobs:
         swap-size-mb: 1024
         build-mount-path: /var/lib/docker
 
+    - name: Restart Docker after disk remount
+      run: |
+        sudo systemctl restart docker
+        sleep 5
+
     - name: Checkout repository
       uses: actions/checkout@v6
 
