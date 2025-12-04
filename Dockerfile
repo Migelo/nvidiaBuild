@@ -26,5 +26,5 @@ RUN apt-get update && \
   make -j && \
   make install && \
   cd .. && \
-  rm -rf hdf5-1.14.4-3* && \
+  rm -rf hdf5-1.14.6* && \
   rm -rf /var/lib/apt/lists/*

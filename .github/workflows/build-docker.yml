@@ -14,21 +14,31 @@ jobs:
 
     steps:
 
-    - name: "node-cleanup"
-      run: |
-        df -hT
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /usr/local/lib/android
-        sudo rm -rf /opt/ghc
-        sudo rm -rf /opt/hostedtoolcache/CodeQL
-        sudo rm -rf /usr/local/share/boost
-        sudo rm -rf /usr/share/swift
-        sudo rm -rf /opt/az
-        sudo rm -rf /opt/microsoft
-        df -hT
+    - name: Maximize build space
+      uses: easimon/maximize-build-space@v10
+      with:
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+        remove-codeql: 'true'
+        remove-docker-images: 'true'
+        root-reserve-mb: 512
+        swap-size-mb: 1024
+        build-mount-path: /var/lib/docker
 
     - name: Checkout repository
       uses: actions/checkout@v6
+
+    - name: Check disk space after maximizing
+      run: |
+        echo "=== Disk usage ==="
+        df -hT
+        echo ""
+        echo "=== Mount points ==="
+        mount | grep -E '^/dev/'
+        echo ""
+        echo "=== Docker directory ==="
+        ls -la /var/lib/docker || echo "Docker directory not yet created"
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
