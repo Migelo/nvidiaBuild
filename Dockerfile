@@ -1,5 +1,5 @@
 # Use NVIDIA CUDA container as the base image
-FROM nvcr.io/nvidia/nvhpc:25.9-devel-cuda_multi-ubuntu22.04
+FROM nvcr.io/nvidia/nvhpc:25.11-devel-cuda_multi-ubuntu22.04
 
 ENV HDFPATH=/home/cernetic/sw/hdf5/intallNvidiaopenmpi
 ENV LD_LIBRARY_PATH=$HDFPATH/lib:$LD_LIBRARY_PATH
