@@ -47,7 +47,7 @@ jobs:
         ls -la /var/lib/docker || echo "Docker directory not yet created"
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      uses: docker/setup-buildx-action@v4
 
     - name: Log in to Docker Hub
       if: github.ref == 'refs/heads/main'
