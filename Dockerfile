@@ -1,5 +1,5 @@
 # Use NVIDIA CUDA container as the base image
-FROM nvcr.io/nvidia/nvhpc:26.1-devel-cuda_multi-ubuntu22.04
+FROM nvcr.io/nvidia/nvhpc:26.9-devel-cuda_multi-ubuntu22.04
 
 ARG HDF5_VERSION=1.14.6
 
