@@ -63,6 +63,19 @@ jobs:
         echo "nvhpc_version=$VERSION" >> $GITHUB_OUTPUT
         echo "Extracted NVHPC version: $VERSION"
 
+    - name: Determine Docker image name
+      id: image
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      run: |
+        if [ -n "$DOCKER_USERNAME" ]; then
+          echo "image=$DOCKER_USERNAME/nvhpc" >> "$GITHUB_OUTPUT"
+          echo "cache_from=type=registry,ref=$DOCKER_USERNAME/nvhpc:latest" >> "$GITHUB_OUTPUT"
+        else
+          echo "image=nvhpc" >> "$GITHUB_OUTPUT"
+          echo "cache_from=" >> "$GITHUB_OUTPUT"
+        fi
+
     - name: Build and push Docker image
       uses: docker/build-push-action@v7
       with:
@@ -70,7 +83,7 @@ jobs:
         file: ./Dockerfile
         push: ${{ github.ref == 'refs/heads/main' }}
         tags: |
-          ${{ secrets.DOCKER_USERNAME }}/nvhpc:${{ steps.extract_version.outputs.nvhpc_version }}-devel-cuda_multi-ubuntu22.04-hdf5
-          ${{ secrets.DOCKER_USERNAME }}/nvhpc:latest
-        cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/nvhpc:latest
+          ${{ steps.image.outputs.image }}:${{ steps.extract_version.outputs.nvhpc_version }}-devel-cuda_multi-ubuntu22.04-hdf5
+          ${{ steps.image.outputs.image }}:latest
+        cache-from: ${{ steps.image.outputs.cache_from }}
         cache-to: type=inline
