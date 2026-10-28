@@ -18,6 +18,18 @@
       "depNameTemplate": "HDFGroup/hdf5",
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^(?:hdf5[_-])?(?<version>[0-9].*)$"
+    },
+    {
+      "customType": "regex",
+      "description": "Update CMake version installed from PyPI in the Dockerfile",
+      "managerFilePatterns": [
+        "/^Dockerfile$/"
+      ],
+      "matchStrings": [
+        "ARG CMAKE_VERSION=(?<currentValue>[^\\s]+)"
+      ],
+      "depNameTemplate": "cmake",
+      "datasourceTemplate": "pypi"
     }
   ]
 }
