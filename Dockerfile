@@ -2,7 +2,7 @@
 FROM nvcr.io/nvidia/nvhpc:26.9-devel-cuda_multi-ubuntu22.04
 
 ARG HDF5_VERSION=2.2.0
-ARG CMAKE_VERSION=3.31.10
+ARG CMAKE_VERSION=4.4.4
 
 ENV HDFPATH=/home/cernetic/sw/hdf5/intallNvidiaopenmpi
 ENV LD_LIBRARY_PATH=${HDFPATH}/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
