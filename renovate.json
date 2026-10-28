@@ -4,5 +4,20 @@
     "config:recommended"
   ],
   "automerge": true,
-  "platformAutomerge": false
+  "platformAutomerge": false,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update HDF5 version used in the Dockerfile",
+      "managerFilePatterns": [
+        "/^Dockerfile$/"
+      ],
+      "matchStrings": [
+        "ARG HDF5_VERSION=(?<currentValue>[^\\s]+)"
+      ],
+      "depNameTemplate": "HDFGroup/hdf5",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^hdf5_(?<version>.+)$"
+    }
+  ]
 }
