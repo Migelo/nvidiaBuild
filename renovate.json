@@ -17,7 +17,7 @@
       ],
       "depNameTemplate": "HDFGroup/hdf5",
       "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^hdf5_(?<version>.+)$"
+      "extractVersionTemplate": "^(?:hdf5[_-])?(?<version>[0-9].*)$"
     }
   ]
 }

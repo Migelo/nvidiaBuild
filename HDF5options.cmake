@@ -26,7 +26,7 @@ set(CMAKE_Fortran_FLAGS "-fPIC -O3" CACHE STRING "Fortran compiler flags")
 set(CMAKE_CXX_FLAGS "-fPIC -O3" CACHE STRING "C++ compiler flags")
 
 # Enable compression support (default in original build)
-set(HDF5_ENABLE_Z_LIB_SUPPORT ON CACHE BOOL "Enable Zlib Filters")
+set(HDF5_ENABLE_ZLIB_SUPPORT ON CACHE BOOL "Enable Zlib Filters")
 set(HDF5_ENABLE_SZIP_SUPPORT ON CACHE BOOL "Use SZip Filter")
 
 # Build configuration
