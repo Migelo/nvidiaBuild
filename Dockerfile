@@ -13,7 +13,10 @@ COPY HDF5options.cmake /HDF5options.cmake
 # Install zlib, cmake, ninja and other necessary packages, create directories, and download HDF5
 RUN apt-get update && \
   apt-get install -y zlib1g-dev wget cmake ninja-build && \
-  wget -q "https://github.com/HDFGroup/hdf5/releases/download/hdf5_${HDF5_VERSION}/hdf5-${HDF5_VERSION}.tar.gz" && \
+  wget -q \
+    "https://github.com/HDFGroup/hdf5/releases/download/hdf5_${HDF5_VERSION}/hdf5-${HDF5_VERSION}.tar.gz" \
+    "https://github.com/HDFGroup/hdf5/releases/download/hdf5_${HDF5_VERSION}/hdf5-${HDF5_VERSION}.sha256sums.txt" && \
+  grep " hdf5-${HDF5_VERSION}.tar.gz$" "hdf5-${HDF5_VERSION}.sha256sums.txt" | sha256sum -c - && \
   tar -xzf "hdf5-${HDF5_VERSION}.tar.gz" && \
   cd "hdf5-${HDF5_VERSION}" && \
   mkdir build && \
