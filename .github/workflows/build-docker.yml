@@ -56,12 +56,17 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Extract NVHPC version from Dockerfile
+    - name: Extract NVHPC base image from Dockerfile
       id: extract_version
       run: |
-        VERSION=$(grep -oP 'FROM nvcr.io/nvidia/nvhpc:\K[^-]+' Dockerfile)
-        echo "nvhpc_version=$VERSION" >> $GITHUB_OUTPUT
-        echo "Extracted NVHPC version: $VERSION"
+        BASE_IMAGE=$(grep -oP '^FROM\s+nvcr\.io/nvidia/nvhpc:\K\S+' Dockerfile | head -n1)
+        BASE_IMAGE=${BASE_IMAGE%%@*}
+        if [ -z "$BASE_IMAGE" ]; then
+          echo "Could not extract NVHPC base image tag from Dockerfile" >&2
+          exit 1
+        fi
+        echo "base_tag=$BASE_IMAGE" >> "$GITHUB_OUTPUT"
+        echo "Extracted NVHPC base image: $BASE_IMAGE"
 
     - name: Determine Docker image name
       id: image
@@ -83,7 +88,7 @@ jobs:
         file: ./Dockerfile
         push: ${{ github.ref == 'refs/heads/main' }}
         tags: |
-          ${{ steps.image.outputs.image }}:${{ steps.extract_version.outputs.nvhpc_version }}-devel-cuda_multi-ubuntu22.04-hdf5
+          ${{ steps.image.outputs.image }}:${{ steps.extract_version.outputs.base_tag }}-hdf5
           ${{ steps.image.outputs.image }}:latest
         cache-from: ${{ steps.image.outputs.cache_from }}
         cache-to: type=inline
